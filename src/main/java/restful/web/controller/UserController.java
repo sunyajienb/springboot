@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,8 @@ public class UserController {
 		}
 	}
 
-	@DeleteMapping(value="/delete")
-	public void deleteUser(int id) {
+	@DeleteMapping(value="/delete/{id}")
+	public void deleteUser(@PathVariable int id) {
 		try {
 			userService.deleteUser(id);
 		} catch (Exception e) {
@@ -52,8 +53,8 @@ public class UserController {
 		}
 	}
 
-	@GetMapping(value="/find")
-	public User findUserById(int id) {
+	@GetMapping(value="/find/{id}")
+	public User findUserById(@PathVariable int id) {
 		User user = null;
 		try {
 			user = userService.findUserById(id);
