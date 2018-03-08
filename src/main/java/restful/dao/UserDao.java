@@ -22,7 +22,7 @@ public interface UserDao {
 	@Update("update user set name = #{name},password = #{password} where id = #{id}")
 	void updateUser(User user) throws Exception;
 	
-	@Select("select name,password from user where id = #{id}")
+	@Select("select id,name,password from user where id = #{id}")
 	User findUserById(int id) throws Exception;
 	
 	@Select("select * from user")

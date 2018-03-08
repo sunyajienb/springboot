@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import restful.bean.Result;
 import restful.bean.User;
 import restful.service.UserService;
 
@@ -26,34 +27,58 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping(value="/add")
-	public void addUser(User user) {
+	@PostMapping
+	public Result addUser(User user) {
+		Result result = new Result();
+		
 		try {
 			userService.addUser(user);
+			result.setCode("+00000");
+			result.setResult("操作成功");
 		} catch (Exception e) {
-			log.error("插入用户失败:" + user);
+			log.error("插入用户失败:" + user + " " + e.getMessage());
+			result.setCode("-10001");
+			result.setResult("插入失败");
+			result.setReason("服务器内部错误");
 		}
+		return result;
 	}
 
-	@DeleteMapping(value="/delete/{id}")
-	public void deleteUser(@PathVariable int id) {
+	@DeleteMapping(value="/{id}")
+	public Result deleteUser(@PathVariable int id) {
+		Result result = new Result();
+		
 		try {
 			userService.deleteUser(id);
+			result.setCode("+00000");
+			result.setResult("操作成功");
 		} catch (Exception e) {
-			log.error("删除用户失败：" + id);
+			log.error("删除用户失败：" + id + " " + e.getMessage());
+			result.setCode("-10002");
+			result.setResult("删除失败");
+			result.setReason("服务器内部错误");
 		}
+		return result;
 	}
 
-	@PutMapping(value="/update")
-	public void updateUser(User user) {
+	@PutMapping
+	public Result updateUser(User user) {
+		Result result = new Result();
+		
 		try {
 			userService.updateUser(user);
+			result.setCode("+00000");
+			result.setResult("操作成功");
 		} catch (Exception e) {
-			log.error("更新用户失败：" + user);
+			log.error("更新用户失败：" + user + " " + e.getMessage());
+			result.setCode("-10003");
+			result.setResult("更新失败");
+			result.setReason("服务器内部错误");
 		}
+		return result;
 	}
 
-	@GetMapping(value="/find/{id}")
+	@GetMapping(value="/{id}")
 	public User findUserById(@PathVariable int id) {
 		User user = null;
 		try {
@@ -65,11 +90,12 @@ public class UserController {
 		return user;
 	}
 
-	@GetMapping(value="/find/all")
+	@GetMapping(value="/all")
 	public List<User> findUsers() {
 		try {
 			return userService.findUsers();
 		} catch (Exception e) {
+			log.error("查询所有用户失败");
 			return Collections.emptyList();
 		}
 	}
