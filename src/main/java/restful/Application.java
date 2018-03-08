@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author admin
- *
+ * 2018-03-08
  */
 @SpringBootApplication
 @MapperScan(value="restful.dao.*")
